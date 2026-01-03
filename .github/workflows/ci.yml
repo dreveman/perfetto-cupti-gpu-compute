@@ -12,7 +12,7 @@ env:
 jobs:
   build:
     name: Build and Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
 
@@ -22,10 +22,30 @@ jobs:
         components: clippy, rustfmt
 
     - name: Install CUDA Toolkit
-      uses: Jimver/cuda-toolkit@v0.2.19
-      id: cuda-toolkit
-      with:
-        cuda: '12.6.0'
+      run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ca-certificates \
+            gnupg \
+            wget
+
+          wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+          sudo dpkg -i cuda-keyring_1.1-1_all.deb
+
+          sudo apt-get update
+          sudo apt-get install -y cuda-13-0
+
+    - name: Set CUDA environment variables
+      env:
+        CUDA_HOME: /usr/local/cuda-13.0
+      run: |
+          echo "CUDA_HOME=$CUDA_HOME" >> $GITHUB_ENV
+          echo "$CUDA_HOME/bin" >> $GITHUB_PATH
+
+    - name: Verify CUDA
+      run: |
+          nvcc --version
+          ls -l $CUDA_HOME
 
     - name: Verify formatting
       run: cargo fmt -- --check
@@ -35,15 +55,9 @@ jobs:
 
     - name: Run tests (cupti-profiler)
       run: cargo test -p cupti-profiler --lib --verbose
-      env:
-        CUDA_PATH: ${{ steps.cuda-toolkit.outputs.CUDA_PATH }}
 
     - name: Run tests
       run: cargo test --verbose
-      env:
-        CUDA_PATH: ${{ steps.cuda-toolkit.outputs.CUDA_PATH }}
 
     - name: Build
       run: cargo build --verbose
-      env:
-        CUDA_PATH: ${{ steps.cuda-toolkit.outputs.CUDA_PATH }}

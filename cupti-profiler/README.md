@@ -15,7 +15,7 @@ This crate generates safe Rust bindings for the NVIDIA CUPTI (CUDA Profiling Too
 
 ## Requirements
 
-- **CUDA Toolkit**: Must be installed on the system (and `CUDA_PATH` set if not in default locations).
+- **CUDA Toolkit**: Must be installed on the system (and `CUDA_HOME` set if not in default locations).
 - **CUPTI**: Part of the CUDA Toolkit.
 
 ## Usage
