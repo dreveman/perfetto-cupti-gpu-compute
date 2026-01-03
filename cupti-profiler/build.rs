@@ -16,10 +16,10 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    let cuda_path = env::var("CUDA_PATH").unwrap_or_else(|_| "/usr/local/cuda".to_string());
+    let cuda_path = env::var("CUDA_HOME").unwrap_or_else(|_| "/usr/local/cuda".to_string());
     let cuda_include = format!("{}/include", cuda_path);
     println!("cargo:rerun-if-changed=wrapper.h");
-    println!("cargo:rerun-if-env-changed=CUDA_PATH");
+    println!("cargo:rerun-if-env-changed=CUDA_HOME");
     let bindings = bindgen::Builder::default()
         .header("wrapper.h")
         .clang_arg(format!("-I{}", cuda_include))
@@ -47,7 +47,7 @@ fn main() {
     }
     #[cfg(target_os = "macos")]
     {
-        println!("cargo:rustc-link-arg=-undefined");
-        println!("cargo:rustc-link-arg=dynamic_lookup");
+        println!("cargo:rustc-cdylib-link-arg=-undefined");
+        println!("cargo:rustc-cdylib-link-arg=dynamic_lookup");
     }
 }
