@@ -8,10 +8,7 @@ crate-type = ["rlib", "cdylib"]
 
 [dependencies]
 libc = "0.2"
-
-[build-dependencies]
-bindgen = "0.69"
-cc = "1.2.51"
+cupti-profiler-sys = { path = "../cupti-profiler-sys" }
 
 [features]
-stubs = []
+stubs = ["cupti-profiler-sys/stubs"]

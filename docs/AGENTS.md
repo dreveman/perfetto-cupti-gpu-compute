@@ -18,7 +18,7 @@ The output artifact is `target/release/libperfetto_cupti_gpu_compute.so`.
 cargo test --workspace --verbose
 
 # Run tests with CUDA stubs (non-Linux or without CUDA toolkit)
-cargo test --workspace --verbose --features cupti-profiler/stubs
+cargo test --workspace --verbose --features stubs
 ```
 
 ## Linting and Formatting
@@ -28,10 +28,10 @@ cargo test --workspace --verbose --features cupti-profiler/stubs
 cargo fmt -- --check
 
 # Check C/C++ formatting (Google style)
-clang-format --dry-run --Werror -style=Google cupti-profiler/stubs.cpp cupti-profiler/wrapper.h
+clang-format --dry-run --Werror -style=Google cupti-profiler-sys/stubs.cpp cupti-profiler-sys/wrapper.h
 
 # Lint with Clippy (CI enforces -D warnings)
-cargo clippy --features cupti-profiler/stubs -- -D warnings
+cargo clippy --features stubs -- -D warnings
 ```
 
 ## Architecture
@@ -48,12 +48,16 @@ This is a Rust library that bridges NVIDIA CUPTI with Perfetto tracing. It injec
   - `metrics.rs`: Default metrics list and parsing
   - `config.rs`: Environment variable configuration
 
+- **cupti-profiler-sys** (`cupti-profiler-sys/`): Low-level FFI bindings to CUPTI
+  - `src/bindings.rs`: Auto-generated via bindgen from `wrapper.h`
+  - `build.rs`: Build script for bindgen generation and linking
+  - `wrapper.h`: C header for bindgen input
+  - `stubs.cpp`: C++ stub implementations for the `stubs` feature
+
 - **cupti-profiler** (`cupti-profiler/`): Safe Rust wrapper around CUPTI
-  - `bindings.rs`: Auto-generated via bindgen from `wrapper.h`
   - `range_profiler.rs`: Range profiling session lifecycle
   - `profiler.rs`: ProfilerHost initialization
   - `metric_evaluator.rs`: Metric decoding from binary counter data
-  - `stubs.cpp`: C++ stub implementations for the `stubs` feature
 
 ### Key Patterns
 
