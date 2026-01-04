@@ -11,3 +11,7 @@ libc = "0.2"
 
 [build-dependencies]
 bindgen = "0.69"
+cc = "1.2.51"
+
+[features]
+stubs = []

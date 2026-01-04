@@ -32,6 +32,7 @@ fn main() {
         .allowlist_type("CU.*")
         .allowlist_type("cu.*")
         .allowlist_var("CUPTI.*")
+        .generate_comments(false)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
         .expect("Unable to generate bindings");
@@ -39,15 +40,16 @@ fn main() {
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
-    #[cfg(target_os = "linux")]
-    {
+    let use_stubs = env::var("CARGO_FEATURE_STUBS").is_ok();
+    if use_stubs {
+        cc::Build::new()
+            .file("stubs.cpp")
+            .include(cuda_include)
+            .cpp(true)
+            .compile("cupti_stubs");
+    } else {
         println!("cargo:rustc-link-search=native={}/lib64", cuda_path);
         println!("cargo:rustc-link-lib=cupti");
         println!("cargo:rustc-link-lib=cuda");
-    }
-    #[cfg(target_os = "macos")]
-    {
-        println!("cargo:rustc-cdylib-link-arg=-undefined");
-        println!("cargo:rustc-cdylib-link-arg=dynamic_lookup");
     }
 }

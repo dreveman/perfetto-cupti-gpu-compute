@@ -14,6 +14,7 @@
 
 #include <cuda.h>
 #include <cupti.h>
+#include <cupti_activity.h>
 #include <cupti_profiler_host.h>
 #include <cupti_range_profiler.h>
 #include <cupti_target.h>
