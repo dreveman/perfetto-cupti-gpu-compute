@@ -12,28 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub use cupti_profiler_sys::*;
-
-#[macro_use]
-pub mod macros;
-
-pub mod error;
-pub use error::*;
-
-pub mod cuda;
-pub use cuda::*;
-
-pub mod activity;
-pub use activity::*;
-
-pub mod subscriber;
-pub use subscriber::*;
-
-pub mod profiler;
-pub use profiler::*;
-
-pub mod range_profiler;
-pub use range_profiler::*;
-
-pub mod metric_evaluator;
-pub use metric_evaluator::*;
+#[allow(non_upper_case_globals)]
+#[allow(non_camel_case_types)]
+#[allow(non_snake_case)]
+#[allow(dead_code)]
+#[allow(clippy::all)]
+pub mod bindings;
+pub use bindings::*;

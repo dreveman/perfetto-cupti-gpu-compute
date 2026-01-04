@@ -24,7 +24,7 @@ This crate is primarily used as an internal dependency for profiling tools. It p
 
 ## Testing with Stubs
 
-For environments without a CUDA installation (e.g., CI, non-GPU machines), you can build and test this crate using the `stubs` feature. This compiles dummy C++ implementations of the CUPTI/CUDA APIs to satisfy linking requirements.
+For environments without a CUDA installation (e.g., MacOS), you can build and test this crate using the `stubs` feature. This compiles dummy C++ implementations of the CUPTI/CUDA APIs to satisfy linking requirements.
 
 ```bash
 cargo test -p cupti-profiler --features stubs

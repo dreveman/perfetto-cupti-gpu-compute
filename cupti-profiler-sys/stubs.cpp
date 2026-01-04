@@ -12,9 +12,63 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <stdint.h>
 #include <string.h>
 
-#include "wrapper.h"
+// Dummy types for stubs to avoid CUDA header dependency
+typedef int CUresult;
+typedef int CUptiResult;
+typedef int CUdevice;
+typedef int CUcontext;
+typedef int CUfunction;
+typedef int CUdevice_attribute;
+typedef int CUfunction_attribute;
+typedef int CUpti_ActivityKind;
+typedef int CUpti_CallbackDomain;
+typedef int CUpti_CallbackId;
+
+#define CUDA_SUCCESS 0
+#define CUPTI_SUCCESS 0
+
+typedef struct {
+  void *pCounterAvailabilityImage;
+  size_t counterAvailabilityImageSize;
+} CUpti_Profiler_GetCounterAvailability_Params;
+
+typedef struct {
+  size_t configImageSize;
+} CUpti_Profiler_Host_GetConfigImageSize_Params;
+
+typedef struct {
+  size_t counterDataSize;
+} CUpti_RangeProfiler_GetCounterDataSize_Params;
+
+// Opaque pointers for other structs
+typedef void CUpti_Profiler_Initialize_Params;
+typedef void CUpti_Profiler_DeInitialize_Params;
+typedef void CUpti_Profiler_Host_Initialize_Params;
+typedef void CUpti_Profiler_Host_Deinitialize_Params;
+typedef void CUpti_Profiler_Host_ConfigAddMetrics_Params;
+typedef void CUpti_Profiler_Host_GetConfigImage_Params;
+typedef void CUpti_Profiler_Host_EvaluateToGpuValues_Params;
+typedef void CUpti_Device_GetChipName_Params;
+typedef void CUpti_RangeProfiler_Enable_Params;
+typedef void CUpti_RangeProfiler_Disable_Params;
+typedef void CUpti_RangeProfiler_Start_Params;
+typedef void CUpti_RangeProfiler_Stop_Params;
+typedef void CUpti_RangeProfiler_SetConfig_Params;
+typedef void CUpti_RangeProfiler_CounterDataImage_Initialize_Params;
+typedef void CUpti_RangeProfiler_DecodeData_Params;
+typedef void CUpti_RangeProfiler_GetCounterDataInfo_Params;
+typedef void CUpti_RangeProfiler_CounterData_GetRangeInfo_Params;
+typedef void *CUpti_SubscriberHandle;
+typedef void (*CUpti_CallbackFunc)(void *userdata, CUpti_CallbackDomain domain,
+                                   CUpti_CallbackId cbid, const void *cbdata);
+typedef void (*CUpti_BuffersCallbackRequestFunc)(uint8_t **buffer, size_t *size,
+                                                 size_t *maxNumRecords);
+typedef void (*CUpti_BuffersCallbackCompleteFunc)(uint8_t *buffer, size_t size,
+                                                  size_t validSize);
+typedef void CUpti_Activity;
 
 // Define stubs for CUDA/CUPTI functions used in Rust
 

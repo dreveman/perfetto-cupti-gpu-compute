@@ -51,7 +51,7 @@ jobs:
       run: cargo fmt -- --check
 
     - name: Verify C/C++ formatting
-      run: clang-format --dry-run --Werror -style=Google cupti-profiler/stubs.cpp cupti-profiler/wrapper.h
+      run: clang-format --dry-run --Werror -style=Google cupti-profiler-sys/stubs.cpp cupti-profiler-sys/wrapper.h
 
     - name: Lint with Clippy
       run: cargo clippy -- -D warnings

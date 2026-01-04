@@ -7,7 +7,7 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [workspace]
-members = ["cupti-profiler"]
+members = ["cupti-profiler", "cupti-profiler-sys"]
 
 [dependencies]
 cupti-profiler = { path = "./cupti-profiler" }
@@ -16,3 +16,6 @@ libc = "0.2"
 once_cell = "1.18"
 perfetto-sdk = "0.1"
 perfetto-sdk-protos-gpu = "0.1"
+
+[features]
+stubs = ["cupti-profiler/stubs"]
