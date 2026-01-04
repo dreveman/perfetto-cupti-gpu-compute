@@ -50,17 +50,23 @@ jobs:
     - name: Verify formatting
       run: cargo fmt -- --check
 
-    - name: Verify C/C++ Formatting
+    - name: Verify C/C++ formatting
       run: clang-format --dry-run --Werror -style=Google cupti-profiler/stubs.cpp cupti-profiler/wrapper.h
 
     - name: Lint with Clippy
       run: cargo clippy -- -D warnings
-
-    - name: Build
-      run: cargo build --workspace --verbose
 
     - name: Run tests
       run: cargo test --workspace --verbose
 
     - name: Run tests (with stubs)
       run: cargo test --workspace --verbose --features cupti-profiler/stubs
+
+    - name: Build (release)
+      run: cargo build --release --workspace --verbose
+
+    - name: Upload library
+      uses: actions/upload-artifact@v4
+      with:
+        name: perfetto-cupti-gpu-compute-linux-x86_64
+        path: target/release/libperfetto_cupti_gpu_compute.so
