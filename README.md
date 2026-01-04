@@ -40,4 +40,4 @@ This crate depends on the internal `cupti-profiler` crate for safe interactions 
 
 - **CUDA Toolkit**: Must be installed.
 - **Rust**: Stable toolchain.
-- `CUDA_PATH`: Environment variable pointing to the CUDA installation (defaults to `/usr/local/cuda` on Linux).
+- `CUDA_HOME`: Environment variable pointing to the CUDA installation (defaults to `/usr/local/cuda` on Linux).
