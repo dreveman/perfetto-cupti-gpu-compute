@@ -16,9 +16,12 @@ use libc::{clock_gettime, timespec};
 use perfetto_sdk::data_source::{
     DataSource, DataSourceArgsBuilder, DataSourceBufferExhaustedPolicy,
 };
-use std::sync::{
-    atomic::{AtomicU64, AtomicU8, Ordering},
-    OnceLock,
+use std::{
+    env,
+    sync::{
+        atomic::{AtomicU64, AtomicU8, Ordering},
+        OnceLock,
+    },
 };
 
 #[cfg(target_os = "linux")]
@@ -38,11 +41,21 @@ pub fn get_next_event_id() -> u64 {
 pub static GOT_FIRST_COUNTERS: AtomicU8 = AtomicU8::new(0);
 
 static GPU_COUNTERS_DATA_SOURCE: OnceLock<DataSource> = OnceLock::new();
-const GPU_COUNTERS_DATA_SOURCE_NAME: &str = "gpu.counters";
+static DATA_SOURCE_NAME: OnceLock<String> = OnceLock::new();
+const DEFAULT_DATA_SOURCE_NAME: &str = "gpu.counters";
+
+/// Returns the data source name, reading from `INJECTION_DATA_SOURCE_NAME` env var or using default.
+fn get_data_source_name() -> &'static str {
+    DATA_SOURCE_NAME.get_or_init(|| {
+        env::var("INJECTION_DATA_SOURCE_NAME")
+            .unwrap_or_else(|_| DEFAULT_DATA_SOURCE_NAME.to_string())
+    })
+}
 
 /// Initializes and retrieves the static Perfetto data source.
 ///
 /// This function is thread-safe and ensures the data source is registered only once.
+/// The data source name can be overridden via the `INJECTION_DATA_SOURCE_NAME` environment variable.
 pub fn get_data_source() -> &'static DataSource<'static> {
     GPU_COUNTERS_DATA_SOURCE.get_or_init(|| {
         let data_source_args = DataSourceArgsBuilder::new()
@@ -52,7 +65,7 @@ pub fn get_data_source() -> &'static DataSource<'static> {
             });
         let mut data_source = DataSource::new();
         data_source
-            .register(GPU_COUNTERS_DATA_SOURCE_NAME, data_source_args.build())
+            .register(get_data_source_name(), data_source_args.build())
             .expect("failed to register data source");
         data_source
     })
