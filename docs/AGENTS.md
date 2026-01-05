@@ -77,6 +77,7 @@ Hardware Counter Collection → Metric Evaluation → Perfetto TracePackets
 
 - `INJECTION_METRICS`: Comma/semicolon-separated metric names (defaults to 24 standard metrics)
 - `INJECTION_VERBOSE`: Enable detailed stdout logging
+- `INJECTION_DATA_SOURCE_NAME`: Override Perfetto data source name (defaults to `gpu.counters`)
 - `CUDA_HOME`: CUDA installation path (build-time, defaults to `/usr/local/cuda`)
 
 ## Usage
