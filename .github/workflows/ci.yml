@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    # Run nightly at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
@@ -68,5 +72,56 @@ jobs:
     - name: Upload library
       uses: actions/upload-artifact@v4
       with:
-        name: perfetto-cupti-gpu-compute-linux-x86_64
+        name: perfetto_cupti_gpu_compute-linux-x86_64
         path: target/release/libperfetto_cupti_gpu_compute.so
+
+  nightly-release:
+    name: Nightly Release
+    needs: build
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: perfetto_cupti_gpu_compute-linux-x86_64
+        path: artifacts
+
+    - name: Prepare release assets
+      run: |
+        cd artifacts
+        tar -czvf libperfetto_cupti_gpu_compute-linux-x86_64.tar.gz libperfetto_cupti_gpu_compute.so
+
+    - name: Delete existing nightly release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release delete nightly --yes || true
+        git push origin :refs/tags/nightly || true
+
+    - name: Create nightly release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release create nightly \
+          --title "Nightly Build" \
+          --notes "Automated nightly build from main branch.
+
+        **Build Date:** $(date -u +%Y-%m-%d)
+        **Commit:** ${{ github.sha }}
+
+        ## Assets
+        - \`libperfetto_cupti_gpu_compute-linux-x86_64.tar.gz\` - Prebuilt shared library for Linux x86_64
+
+        ## Usage
+        \`\`\`bash
+        tar -xzf libperfetto_cupti_gpu_compute-linux-x86_64.tar.gz
+        CUDA_INJECTION64_PATH=\$(pwd)/libperfetto_cupti_gpu_compute.so /path/to/cuda_app
+        \`\`\`
+        " \
+          --prerelease \
+          artifacts/libperfetto_cupti_gpu_compute-linux-x86_64.tar.gz
