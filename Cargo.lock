@@ -256,9 +256,9 @@ dependencies = [
 
 [[package]]
 name = "perfetto-sdk"
-version = "0.1.3"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ca0f5c4c7512fe7a2d6843ed55f6b7a23ad16f589c8ed733f8a6bac85bc59d96"
+checksum = "50f69171252f6ef2df2601ce2b93776317739634327f34ec4e7bb3792db37237"
 dependencies = [
  "bitflags",
  "paste",
@@ -268,9 +268,9 @@ dependencies = [
 
 [[package]]
 name = "perfetto-sdk-protos-gpu"
-version = "0.1.2"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2dfa260ea889d1a2fe189f1bc5f870ab47b357eb86127d571df396a4b1346473"
+checksum = "562fa908488261981113dbb97ef78a1ae401f1070cb6c7d5c9da0c3b67a1032e"
 dependencies = [
  "paste",
  "perfetto-sdk",
@@ -278,9 +278,9 @@ dependencies = [
 
 [[package]]
 name = "perfetto-sdk-sys"
-version = "0.1.2"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7fcdef3e3594ba2e8543a964e6d52e0742b4e809392bf422febde65e42695e76"
+checksum = "ecef443f76900822d65ad734a234f170e1a556de9a074449cafe5a394d9369e7"
 dependencies = [
  "bindgen 0.71.1",
  "cc",
