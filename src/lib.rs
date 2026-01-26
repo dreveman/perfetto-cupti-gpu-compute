@@ -125,32 +125,32 @@ extern "C" fn end_execution() {
                         emit("hw_version", &format!("{}.{}", major, minor));
                         #[allow(nonstandard_style)]
                         match cache_mode as u32 {
-                            CUfunc_cache_enum_CU_FUNC_CACHE_PREFER_NONE => emit("launch__func_cache_config", "CachePreferNone"),
-                            CUfunc_cache_enum_CU_FUNC_CACHE_PREFER_SHARED => emit("launch__func_cache_config", "CachePreferShared"),
-                            CUfunc_cache_enum_CU_FUNC_CACHE_PREFER_L1 => emit("launch__func_cache_config", "CachePreferL1"),
-                            CUfunc_cache_enum_CU_FUNC_CACHE_PREFER_EQUAL => emit("launch__func_cache_config", "CachePreferEqual"),
-                            _ => emit("launch__func_cache_config", "n/a"),
+                            CUfunc_cache_enum_CU_FUNC_CACHE_PREFER_NONE => emit("func_cache_config", "CachePreferNone"),
+                            CUfunc_cache_enum_CU_FUNC_CACHE_PREFER_SHARED => emit("func_cache_config", "CachePreferShared"),
+                            CUfunc_cache_enum_CU_FUNC_CACHE_PREFER_L1 => emit("func_cache_config", "CachePreferL1"),
+                            CUfunc_cache_enum_CU_FUNC_CACHE_PREFER_EQUAL => emit("func_cache_config", "CachePreferEqual"),
+                            _ => emit("func_cache_config", "n/a"),
                         }
-                        emit("launch__waves_per_multiprocessor", &waves_per_multiprocessor.to_string());
-                        emit("launch__grid_size", &grid_size.to_string());
-                        emit("launch__grid_size_x", &activity.grid_size.0.to_string());
-                        emit("launch__grid_size_y", &activity.grid_size.1.to_string());
-                        emit("launch__grid_size_z", &activity.grid_size.2.to_string());
-                        emit("launch__block_size", &block_size.to_string());
-                        emit("launch__block_size_x", &activity.block_size.0.to_string());
-                        emit("launch__block_size_y", &activity.block_size.1.to_string());
-                        emit("launch__block_size_z", &activity.block_size.2.to_string());
-                        emit("launch__thread_count", &thread_count.to_string());
-                        emit("launch__registers_per_thread", &activity.registers_per_thread.to_string());
+                        emit("waves_per_multiprocessor", &waves_per_multiprocessor.to_string());
+                        emit("grid_size", &grid_size.to_string());
+                        emit("grid_size_x", &activity.grid_size.0.to_string());
+                        emit("grid_size_y", &activity.grid_size.1.to_string());
+                        emit("grid_size_z", &activity.grid_size.2.to_string());
+                        emit("block_size", &block_size.to_string());
+                        emit("block_size_x", &activity.block_size.0.to_string());
+                        emit("block_size_y", &activity.block_size.1.to_string());
+                        emit("block_size_z", &activity.block_size.2.to_string());
+                        emit("thread_count", &thread_count.to_string());
+                        emit("registers_per_thread", &activity.registers_per_thread.to_string());
                         // TODO: Take shared mem config and carve-out into account.
-                        emit("launch__shared_mem_config_size", "49152");
-                        emit("launch__shared_mem_per_block_driver", &smem_per_block.to_string());
-                        emit("launch__shared_mem_per_block_dynamic", &activity.dynamic_shared_memory.to_string());
-                        emit("launch__shared_mem_per_block_static", &activity.static_shared_memory.to_string());
-                        emit("launch__occupancy_limit_shared_mem", &occupancy_limit_shared_mem.to_string());
-                        emit("launch__occupancy_limit_warps", &occupancy_limit_warps.to_string());
-                        emit("launch__occupancy_limit_blocks", &max_blocks_sm.to_string());
-                        emit("launch__occupancy_limit_registers", &occupancy_limit_registers.to_string());
+                        emit("shared_mem_config_size", "49152");
+                        emit("shared_mem_per_block_driver", &smem_per_block.to_string());
+                        emit("shared_mem_per_block_dynamic", &activity.dynamic_shared_memory.to_string());
+                        emit("shared_mem_per_block_static", &activity.static_shared_memory.to_string());
+                        emit("occupancy_limit_shared_mem", &occupancy_limit_shared_mem.to_string());
+                        emit("occupancy_limit_warps", &occupancy_limit_warps.to_string());
+                        emit("occupancy_limit_blocks", &max_blocks_sm.to_string());
+                        emit("occupancy_limit_registers", &occupancy_limit_registers.to_string());
                         emit("sm__maximum_warps_avg_per_active_cycle", &max_active_warps.to_string());
                         emit("sm__maximum_warps_per_active_cycle_pct", &max_active_warps_pct.to_string());
                     };
