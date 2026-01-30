@@ -151,8 +151,8 @@ extern "C" fn end_execution() {
                         emit("occupancy_limit_warps", &occupancy_limit_warps.to_string());
                         emit("occupancy_limit_blocks", &max_blocks_sm.to_string());
                         emit("occupancy_limit_registers", &occupancy_limit_registers.to_string());
-                        emit("sm__maximum_warps_avg_per_active_cycle", &max_active_warps.to_string());
-                        emit("sm__maximum_warps_per_active_cycle_pct", &max_active_warps_pct.to_string());
+                        emit("maximum_warps_avg_per_active_cycle", &max_active_warps.to_string());
+                        emit("maximum_warps_per_active_cycle_pct", &max_active_warps_pct.to_string());
                     };
                     if state.config.verbose {
                         println!("Range Name: {}", range.range_name);
