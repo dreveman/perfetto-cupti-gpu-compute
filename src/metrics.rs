@@ -18,6 +18,7 @@
 /// covering compute usage, memory bandwidth, cache efficiency, and instruction throughput.
 pub const DEFAULT_METRICS: &[&str] = &[
     "gpu__time_duration.sum",
+    "gpu__compute_memory_throughput.avg.pct_of_peak_sustained_elapsed",
     "sm__cycles_active.avg",
     "sm__cycles_elapsed.avg",
     "sm__cycles_elapsed.avg.per_second",
