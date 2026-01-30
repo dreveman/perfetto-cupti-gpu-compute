@@ -122,7 +122,7 @@ extern "C" fn end_execution() {
                         emit("kernel_type", "Compute");
                         emit("process_id", &process_id.to_string());
                         emit("process_name", &process_name);
-                        emit("hw_version", &format!("{}.{}", major, minor));
+                        emit("arch", &format!("CC_{}{}", major, minor));
                         #[allow(nonstandard_style)]
                         match cache_mode as u32 {
                             CUfunc_cache_enum_CU_FUNC_CACHE_PREFER_NONE => emit("func_cache_config", "CachePreferNone"),
