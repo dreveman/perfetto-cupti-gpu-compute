@@ -27,6 +27,7 @@ pub const DEFAULT_METRICS: &[&str] = &[
     "dram__cycles_elapsed.avg.per_second",
     "dram__throughput.avg.pct_of_peak_sustained_elapsed",
     "lts__throughput.avg.pct_of_peak_sustained_elapsed",
+    "l1tex__throughput.avg.pct_of_peak_sustained_elapsed",
     "sm__warps_active.avg.pct_of_peak_sustained_active",
     "sm__warps_active.avg.per_cycle_active",
     "sm__inst_executed.avg.per_cycle_active",
