@@ -176,7 +176,7 @@ impl GpuBackend for CuptiBackend {
 
     fn finalize_range_profiler(&self) {
         if let Ok(mut state) = GLOBAL_STATE.lock() {
-            for (_, data) in state.context_data.iter_mut() {
+            for data in state.context_data.values_mut() {
                 data.finalize_profiler(false);
                 if let Some(last_launch) = data
                     .kernel_launches
